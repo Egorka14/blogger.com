@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Admin-panel{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('main/css/styles.css') }}">
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+{% block body %}
+    <div id="users" class="container">
+    <div class="fixed">
+        <ul>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <p class="r1">Username: {{ app.user.username }}</p>
+                <li><a href="{{ url('logout') }}">Logout</a></li>
+            {% endif %}
+
+            {% set path = path('profile', {'id': app.user.id}) %}
+
+            {% if is_granted('ROLE_ADMIN') -%}
+
+                <li><a href="{{ path }}">My Profile</a></li>
+
+                <li><a class="active" href="{{ url('admin') }}">Administration</a></li>
+                <li><a href="{{ url('main') }}">Home</a></li>
+            {% elseif is_granted('ROLE_MODER') -%}
+
+                <li><a href="{{ path }}">My Profile</a></li>
+                <li><a class="active" href="{{ url('admin') }}">Administration</a></li>
+                <li><a href="{{ url('main') }}">Home</a></li>
+            {% endif %}
+
+        </ul>
+    </div>
+
+<div id="Page1">
+    <div class="page_name"><h1>Users</h1></div>
+    <div class="six"><a href="#" onclick="return show('Page2','Page1');">Page posts</a></div>
+   <table class="features-table">
+    <tr>
+        <th>id</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>ROLE</th>
+        <th class="vert">Delete</th>
+        <th>Profile</th>
+        <th>Block</th>
+        <th>Unlock</th>
+        <th>Make a blogger</th>
+    </tr>
+    {% for qusers in users %}
+    <tr>
+        <td>{{ qusers.id }}</td>
+        <td>{{ qusers.username }}</td>
+        <td>{{ qusers.email }}</td>
+        <td>{{ qusers.firstname }}</td>
+        <td>{{ qusers.lastname }}</td>
+            {% if qusers.roles == qusers.granted('ROLE_ADMIN') %}
+                {# your code #}
+                <td>admin</td>
+            {% elseif qusers.roles == qusers.granted('ROLE_MODER') %}
+                {# your code #}
+                <td>moder</td>
+            {% elseif qusers.roles == qusers.granted('ROLE_BLOGGER') %}
+                {# your code #}
+                <td>blogger</td>
+            {% elseif qusers.roles == qusers.granted('ROLE_USER') %}
+                {# your code #}
+                <td>user</td>
+            {% elseif qusers.roles == qusers.granted('ROLE_BLOCKED') %}
+                {# your code #}
+                <td>blocked</td>
+            {% endif %}
+        {% set pat = path('settingprofile', {'id': qusers.id}) %}
+       {# <td>{{ qusers.roles }}</td> #}
+        <td class="green vert five"><a href="#" class="btn btn-danger delete-article" data-id="{{ qusers.id }}">Delete</a></td>
+        <td class="green five"><a href="{{ pat }}">Profile</a></td>
+        <td class="green five"><a href="#" class="btn btn-danger blockprofile-article" data-id="{{ qusers.id }}">Block</a></td>
+        <td class="green five"><a href="#" class="btn btn-danger unlockprofile-article" data-id="{{ qusers.id }}">Unlock</a></td>
+        <td class="green five"><a href="#" class="btn btn-danger accomplishprofile-article" data-id="{{ qusers.id }}">accomplish</a></td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+
+    <div class="navigation text-center">
+        {{ knp_pagination_render(users) }}
+    </div>
+</div>
+    </div>
+
+    <div id="Page2" style="display:none">
+        <div class="page_name"><h1>Posts</h1></div>
+        <div class="six"><a href="#" onclick="return show('Page1','Page2');">Page users</a></div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/main.js')  }}"></script>
+{% endblock %}
+</body>
+</html>

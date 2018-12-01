@@ -1,0 +1,26 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+logout:
+  path: /logout
+
+login:
+  path: /login
+
+register:
+  path: /register
+
+admin:
+  path: /admin
+
+main:
+  path: /
+
+profile:
+  path: /profile/{id}
+
+settingprofile:
+  path: /settingprofile/{id}
+
+
+

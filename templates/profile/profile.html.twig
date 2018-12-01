@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My profile{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('main/css/demo.css') }}">
+    <link rel="stylesheet" href="{{ asset('main/css/styleProfile.css') }}">
+    <link rel="stylesheet" href="{{ asset('main/css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('main/css/styles.css') }}">
+{% endblock %}
+{% block body %}
+<div id="users" class="container">
+    <div class="fixed">
+        <ul>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <p class="r1">Username: {{ app.user.username }}</p>
+                <li><a href="{{ url('logout') }}">Logout</a></li>
+            {% endif %}
+            {% set path = path('profile', {'id': app.user.id}) %}
+            {% if is_granted('ROLE_ADMIN') -%}
+                <li><a href="{{ path }}" class="active myprofile"">My Profile</a></li>
+                <li><a href="{{ url('admin') }}">Administration</a></li>
+                <li><a href="{{ url('main') }}">Home</a></li>
+            {% elseif is_granted('ROLE_MODER') -%}
+                <li><a href="{{ path }}" class="active myprofile">My Profile</a></li>
+                <li><a href="{{ url('admin') }}">Administration</a></li>
+                <li><a href="{{ url('main') }}">Home</a></li>
+            {% elseif is_granted('ROLE_BLOGGER') -%}
+                <li><a href="{{ path }}" class="active myprofile">My Profile</a></li>
+                <li><a href="{{ url('main') }}">Home</a></li>
+            {% elseif is_granted('ROLE_USER') -%}
+                <li><a href="{{ path }}" class="active myprofile">My Profile</a></li>
+                <li><a href="{{ url('main') }}">Home</a></li>
+            {% else %}
+                <li><a href="{{ url('register') }}">Register</a></li>
+                <li><a href="{{ url('login') }}">Login</a></li>
+                <li><a href="{{ url('main') }}">Home</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+
+    <div id="wrapper">
+            {{ form_start(form) }}
+                <h1> My Profile </h1>
+                <p>
+                    {{ form_row(form.username) }}
+                </p>
+            <p>
+                {{ form_row(form.lastname) }}
+                </p>
+                <p>
+                {{ form_row(form.firstname) }}
+                </p>
+                <p>
+                    {{ form_row(form.email) }}
+                </p>
+                <p>
+                    {{ form_row(form.plainPassword.first) }}
+                </p>
+                <p>
+                    {{ form_row(form.plainPassword.second) }}
+                </p>
+        <p>
+            {{ form_row(form.description) }}
+        </p>
+        <p class="signin button">
+            <input type="submit" value="Update"/>
+        </p>
+
+            {{ form_end(form) }}
+    </div>
+
+
+
+{% endblock %}
+    {% block javascripts %}
+        <script src="{{ asset('js/main.js')  }}"></script>
+    {% endblock %}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Авторизация{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('Authenticator/css/demo.css') }}">
+        <link rel="stylesheet" href="{{ asset('Authenticator/css/styleRegister.css') }}">
+        <link rel="stylesheet" href="{{ asset('Authenticator/css/animate-custom.css') }}">
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    <div id="wrapper">
+        <div id="register" class="animate form">
+            {{ form_start(form) }}
+                <h1> Sign up </h1>
+                <p>
+                    {{ form_row(form.username) }}
+                </p>
+            <p>
+                {{ form_row(form.lastname) }}
+                </p>
+                <p>
+                {{ form_row(form.firstname) }}
+                </p>
+                <p>
+                    {{ form_row(form.email) }}
+                </p>
+                <p>
+                    {{ form_row(form.plainPassword.first) }}
+                </p>
+                <p>
+                    {{ form_row(form.plainPassword.second) }}
+                </p>
+                <p>
+                    {{ form_row(form.blogger) }}
+                </p>
+                <p class="signin button">
+                    <input type="submit" value="Sign up"/>
+                </p>
+            {{ form_end(form) }}
+                <p class="change_link">
+                    Already a member ?
+                    <a href="{{ url('login') }}" class="to_login"> Go and log in </a>
+                </p>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}
+</body>
+</html>

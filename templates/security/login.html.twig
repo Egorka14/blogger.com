@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Авторизация{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('Authenticator/css/demo.css') }}">
+        <link rel="stylesheet" href="{{ asset('Authenticator/css/styleLogin.css') }}">
+        <link rel="stylesheet" href="{{ asset('Authenticator/css/animate-custom.css') }}">
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+
+        <div id="wrapper">
+            <div id="login" class="animate form">
+                <form method="post">
+                    <h1>Log in</h1>
+                    <p>
+                        <label for="username" class="uname" data-icon="u" > Your email </label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" placeholder="mymail@mail.com" required autofocus/>
+                    </p>
+                    <p>
+                        <label for="password" class="youpasswd" data-icon="p"> Your password </label>
+                        <input type="password" name="password" required="required" id="password" placeholder="eg. X8df!90EO" />
+
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}">
+                    </p>
+                    <p class="keeplogin">
+                        <input type="checkbox" name="_remember_me" id="loginkeeping" value="loginkeeping" />
+                        <label for="loginkeeping">Keep me logged in</label>
+                    </p>
+                    <p class="login button">
+                        <input type="submit" value="Login" />
+                    </p>
+                </form>
+                <p class="change_link">
+                    Not a member yet ?
+                    <a href="{{ url('register') }}" class="to_register">Join us</a>
+                </p>
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}
+</body>
+</html>
